@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2014 IBM Corp.
+  
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+  
+   http://www.apache.org/licenses/LICENSE-2.0
+  
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:datapowermgr="http://www.ibm.com/datapower/lfs/schemas/7.0/datapowermgr.xmi" xmlns:properties="http://www.ibm.com/datapower/lfs/schemas/5.0/properties.xmi" xmlns:xmi="http://www.omg.org/XMI" targetNamespace="http://www.ibm.com/datapower/lfs/schemas/7.0/datapowermgr.xmi">
+  <xsd:import namespace="http://www.ibm.com/datapower/lfs/schemas/5.0/properties.xmi" schemaLocation="properties.xsd"/>
+  <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="XMI.xsd"/>
+  <xsd:complexType name="DPVersion">
+    <xsd:annotation>
+      <xsd:documentation>A copy of a Domain or ClonableDeviceSettings that can be deployed in the ManagedSet.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="properties" type="properties:Property"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="versionImageFileLocation" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>Location of the file that contains the image for this Version</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="timeCreatedInManager" type="xsd:long">
+      <xsd:annotation>
+        <xsd:documentation>The time/date when the Version was created in the Manager</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="userComment" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>A comment specified by the user when they created this version in the Manager</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="versionNumber" type="xsd:int">
+      <xsd:annotation>
+        <xsd:documentation>The number of the Version.  Will be unique within the scope of the Domain, Deployment Policy or Firmware instance this is a version for.  Derived from the highestVersion number of its containing Domain, Deployment Policy or Firmware instance.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>   
+  </xsd:complexType>  
+  <xsd:element name="DPVersion" type="datapowermgr:DPVersion">
+    <xsd:annotation>
+      <xsd:documentation>A copy of a Domain that can be deployed in the ManagedSet.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPDeploymentPolicyVersion">
+  	<xsd:annotation>
+  		<xsd:documentation>
+  			A copy of a Domain that can be
+  			deployed in the ManagedSet.
+  		</xsd:documentation>
+  	</xsd:annotation>
+  	<xsd:choice maxOccurs="unbounded" minOccurs="0">
+  		<xsd:element name="properties" type="properties:Property" />
+  		<xsd:element ref="xmi:Extension" />
+  	</xsd:choice>
+  	<xsd:attribute ref="xmi:id" />
+  	<xsd:attributeGroup ref="xmi:ObjectAttribs" />
+  	<xsd:attribute name="policyName" type="xsd:string"></xsd:attribute>
+  	<xsd:attribute name="versionImageFileLocation"
+  		type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Location of the file that contains the image for this
+  				Version
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="timeCreatedInManager" type="xsd:long">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The time/date when the Version was created in the
+  				 Manager
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="userComment" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				A comment specified by the user when they created this
+  				version in the  Manager
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="versionNumber" type="xsd:int">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The number of the Version. Will be unique within the
+  				scope of the Domain, Deployment Policy or
+  				Firmware instance this is a version for. Derived from
+  				the highestVersion number of its containing Domain, Deployment Policy or Firmware instance.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="domainName" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The domain name on the deployment policy.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="policyType">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The deployment policy TYPE
+  			</xsd:documentation>
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:string">
+  				<xsd:enumeration value="EXPORT" />
+  				<xsd:enumeration value="NONE"/>
+  				<xsd:enumeration value="XML" />
+  				<xsd:enumeration value="value" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPDeploymentPolicyVersion" type="datapowermgr:DPDeploymentPolicyVersion">
+    <xsd:annotation>
+      <xsd:documentation>A deployment policy version that can be deployed in the ManagedSet.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>  
+  <xsd:complexType name="DPManagedSet">
+    <xsd:annotation>
+      <xsd:documentation>A set of DPDevices and DPDomains on those Devices that will be managed.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+<!-- <xsd:element name="desiredFirmwareVersion" type="datapowermgr:DPFirmwareVersion">
+        <xsd:annotation>
+          <xsd:documentation>The DPFirmwareVersion that should be deployed to devices in this ManagedSet</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="master" type="datapowermgr:DPDevice">
+        <xsd:annotation>
+          <xsd:documentation>The device that is the current source of Domain and ClonableDeviceSettings versions that will be deployed (saved and copied to) other devices in the domain.  The firmware version on this device should also be the same as the firmware version that is deployed for this managedset.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="settings" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The set of versions for the ClonableDeviceSettings for this managedset.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>  -->
+      <xsd:element name="deviceMembers" type="datapowermgr:DPDevice">
+        <xsd:annotation>
+          <xsd:documentation>The set of devices that this ManagedSet manages</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="properties" type="properties:Property"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="name" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The unique identifier of this DPManagedSet</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+<!--    <xsd:attribute name="desiredFirmwareVersion" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The DPFirmwareVersion that should be deployed to devices in this ManagedSet</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>  -->
+    <xsd:attribute name="deviceMembers" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The set of devices that this ManagedSet manages</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPManagedSet" type="datapowermgr:DPManagedSet">
+    <xsd:annotation>
+      <xsd:documentation>A set of DPDevices and DPDomains on those Devices that will be managed.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPDeployablePolicy">
+  	<xsd:annotation>
+  		<xsd:documentation>
+  			A configuration that can be deployed into a ManagedSet.
+  		</xsd:documentation>
+  	</xsd:annotation>
+  	<xsd:choice maxOccurs="unbounded" minOccurs="0">
+  		<xsd:element name="versions"
+  			type="datapowermgr:DPDeploymentPolicyVersion">
+  			<xsd:annotation>
+  				<xsd:documentation>
+  					The set of versions for this DPDomain object.
+  				</xsd:documentation>
+  			</xsd:annotation>
+  		</xsd:element>
+
+  		<xsd:element name="properties" type="properties:Property" />
+  		<xsd:element ref="xmi:Extension" />
+  	</xsd:choice>
+  	<xsd:attribute ref="xmi:id" />
+  	<xsd:attributeGroup ref="xmi:ObjectAttribs" />
+  	<!-- <xsd:attribute name="highestVersion" type="xsd:int">
+  		<xsd:annotation>
+  		<xsd:documentation>
+  		The highest version number that has EVER been used for
+  		a version of this object. Used to create unique
+  		identifiers for the versions of this object. It is OK
+  		for this number to wrap as long as it doesn't create
+  		duplicated identifiers among the current set of
+  		versions.
+  		</xsd:documentation>
+  		</xsd:annotation>
+  		</xsd:attribute> -->
+  	<xsd:attribute name="highestVersion" type="xsd:int"></xsd:attribute>
+  	<xsd:attribute name="policyName" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Unique name within the scope of the DPManagedSet that
+  				identifies this DPDomain or DPClonableDeviceSettings.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute> 
+  	<!--   	<xsd:attribute name="desiredVersion" type="xsd:string">
+  		<xsd:annotation>
+  		<xsd:documentation>
+  		The current Version that is deployed for this DPDomain
+  		or DPClonableDeviceSettings Object.
+  		</xsd:documentation>
+  		</xsd:annotation>
+  		</xsd:attribute> -->
+  	<xsd:attribute name="SourceURL" type="xsd:anyURI">
+  	  	<xsd:annotation>
+  			<xsd:documentation>
+  				The Deployment policy location
+  			</xsd:documentation>
+  		</xsd:annotation>   	
+  	</xsd:attribute>
+  	<xsd:attribute name="SynchDate" type="xsd:long">
+  	    <xsd:annotation>
+  			<xsd:documentation>
+  				The time when the domain policy was synchronized
+  			</xsd:documentation>
+  		</xsd:annotation>    	
+  	</xsd:attribute>
+  	<xsd:attribute name="domainName" type="xsd:string">
+  	</xsd:attribute>
+  	<xsd:attribute name="policyType">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The deployment policy TYPE - EXPORT, XML, NONE
+  			</xsd:documentation>
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:string">
+  				<xsd:enumeration value="EXPORT" />
+  				<xsd:enumeration value="NONE" />
+  				<xsd:enumeration value="XML" />
+  				<xsd:enumeration value="value" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPDeployablePolicy" type="datapowermgr:DPDeployablePolicy">
+    <xsd:annotation>
+      <xsd:documentation>A configuration that can be deployed into a ManagedSet.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>  
+  <xsd:complexType name="DPDeployableConfiguration">
+  	<xsd:annotation>
+  		<xsd:documentation>
+  			A configuration that can be deployed into a ManagedSet.
+  		</xsd:documentation>
+  	</xsd:annotation>
+  	<xsd:choice maxOccurs="unbounded" minOccurs="0">
+  		<xsd:element name="versions" type="datapowermgr:DPVersion">
+  			<xsd:annotation>
+  				<xsd:documentation>
+  					The set of versions for this DPDomain object.
+  				</xsd:documentation>
+  			</xsd:annotation>
+  		</xsd:element>
+<!--   		<xsd:element name="desiredVersion"
+  			type="datapowermgr:DPVersion">
+  			<xsd:annotation>
+  				<xsd:documentation>
+  					The current Version that is deployed for this
+  					DPDomain or DPClonableDeviceSettings Object.
+  				</xsd:documentation>
+  			</xsd:annotation>
+  		</xsd:element> -->
+  		<xsd:element name="properties" type="properties:Property" />
+  		<xsd:element ref="xmi:Extension" />
+  	</xsd:choice>
+  	<xsd:attribute ref="xmi:id" />
+  	<xsd:attributeGroup ref="xmi:ObjectAttribs" />
+  	<xsd:attribute name="highestVersion" type="xsd:int">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The highest version number that has EVER been used for
+  				a version of this object. Used to create unique
+  				identifiers for the versions of this object. It is OK
+  				for this number to wrap as long as it doesn't create
+  				duplicated identifiers among the current set of
+  				versions.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="name" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Unique name within the scope of the DPManagedSet that
+  				identifies this DPDomain.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+<!--   	<xsd:attribute name="desiredVersion" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The current Version that is deployed for this DPDomain
+  				or DPClonableDeviceSettings Object.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>  -->
+  	<xsd:attribute name="SourceURL" type="xsd:anyURI">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The Deployment policy location
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="SynchDate" type="xsd:long">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The time when the domain policy was synchronized
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="SyncMode">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The Domain Synchronization Mode, Automatic or Manual
+  			</xsd:documentation>
+  		</xsd:annotation>
+  		<xsd:simpleType>
+  			<xsd:restriction base="xsd:string">
+  				<xsd:enumeration value="AUTO" />
+  				<xsd:enumeration value="MANUAL" />
+  				<xsd:enumeration value="value" />
+  			</xsd:restriction>
+  		</xsd:simpleType>
+  	</xsd:attribute>
+  	<xsd:attribute name="OutOfSynch" type="xsd:boolean">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Indicates that the Domain is not synchronized
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+<!--   	<xsd:attribute name="checkVersionSynch" type="xsd:boolean"></xsd:attribute> -->
+  	<xsd:attribute name="quiesceTimeout" type="xsd:int">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Indicates the timeout value that will be used when domain is quiesced
+  			</xsd:documentation>
+  		</xsd:annotation>  	
+  	</xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPDeployableConfiguration" type="datapowermgr:DPDeployableConfiguration">
+    <xsd:annotation>
+      <xsd:documentation>A configuration that can be deployed into a ManagedSet.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPDevice">
+  	<xsd:annotation>
+  		<xsd:documentation>
+  			Repesents a physical DataPower Device.
+  		</xsd:documentation>
+  	</xsd:annotation>
+  	<xsd:choice maxOccurs="unbounded" minOccurs="0">
+  		<xsd:element name="domains" type="datapowermgr:DPDomain"></xsd:element>
+  		<xsd:element name="properties" type="properties:Property" />
+  		<xsd:element ref="xmi:Extension" />
+
+  	</xsd:choice>
+  	<xsd:attribute ref="xmi:id" />
+  	<xsd:attributeGroup ref="xmi:ObjectAttribs" />
+  	<xsd:attribute name="GUIPort" type="xsd:int">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Port for the Web GUI on the DataPower device.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="HLMPort" type="xsd:int">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Port for the High Level Management API on the
+  				DataPower device.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="Hostname" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Hostname of the DataPower device.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="name" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Enduser meaningful name for the DataPower Device.
+  				Should be unique among all the DPDevices, but this
+  				attribute is NOT used as the unique identifier for the
+  				device. See serialNumber
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="password" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Password for userid to be used in connecting to the
+  				device. This field is stored as is.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="serialNumber" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				serial number for the DataPower Device. Will be unique
+  				among all DataPower devices ever manufactured and is
+  				used as the unique ID of this device.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="userId" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				userid to be used in connecting to this device.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="deviceType" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				The type of the device. Example XS40, XI50
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="featureLicenses" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				A ; separated string naming the license features this
+  				device is allowed to have
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="modelType" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				A string version of the model type of this device.
+  				Examples of model type are 9002 and 9003
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="currentAMPVersion" type="xsd:string">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				A string version of the current AMP version supported
+  				by this device. Example AMP versions are 1.0 and 2.0.
+  			</xsd:documentation>
+  		</xsd:annotation>
+  	</xsd:attribute>
+  	<xsd:attribute name="certificateLocation" type="xsd:anyURI">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Location where the certificates from a Device backup operation
+  				will be stored
+  			</xsd:documentation>
+  		</xsd:annotation>  	
+  	</xsd:attribute>  	
+  	<xsd:attribute name="backupFileLocation" type="xsd:anyURI">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Location where the files from a Device backup operation
+  				will be stored
+  			</xsd:documentation>
+  		</xsd:annotation>   	
+  	</xsd:attribute>
+  	<xsd:attribute name="quiesceTimeout" type="xsd:int">
+  		<xsd:annotation>
+  			<xsd:documentation>
+  				Indicates the timeout value that is used when device is quiesced
+  			</xsd:documentation>
+  		</xsd:annotation>  	
+  	</xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPDevice" type="datapowermgr:DPDevice">
+    <xsd:annotation>
+      <xsd:documentation>Repesents a physical DataPower Device.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPDomain">
+  	<xsd:annotation>
+  		<xsd:documentation>
+  			Represents a managed Domain on a managed DataPower device
+  		</xsd:documentation>
+  	</xsd:annotation>
+  	<xsd:complexContent>
+  		<xsd:extension
+  			base="datapowermgr:DPDeployableConfiguration">  			
+  			<xsd:sequence>
+  				<xsd:element name="deploymentPolicy" type="datapowermgr:DPDeployablePolicy" maxOccurs="1" minOccurs="0"></xsd:element>
+  			</xsd:sequence> 
+    <!-- <xsd:choice maxOccurs="unbounded" minOccurs="0">
+    	<xsd:element name="deploymentPolicy" type="datapowermgr:DPDeployablePolicy" maxOccurs="1" minOccurs="0"></xsd:element>
+    </xsd:choice>  -->			
+  		</xsd:extension>
+  		
+  	</xsd:complexContent>
+
+  </xsd:complexType>
+  <xsd:element name="DPDomain" type="datapowermgr:DPDomain">
+    <xsd:annotation>
+      <xsd:documentation>Represents a managed Domain on a managed DataPower device </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPPolicy">
+    <xsd:annotation>
+      <xsd:documentation>Represents a managed Domain on a managed DataPower device </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="datapowermgr:DPDeployableConfiguration"/>
+      
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DPPolicy" type="datapowermgr:DPPolicy">
+    <xsd:annotation>
+      <xsd:documentation>Represents a managed Domain on a managed DataPower device </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>  
+  <xsd:complexType name="DPFirmware">
+    <xsd:annotation>
+      <xsd:documentation>A collection object for all of the firmware versions</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="versions" type="datapowermgr:DPFirmwareVersion"/>
+      <xsd:element name="properties" type="properties:Property"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="deviceType" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>deviceType that this set of FirmwareVersions is for</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="highestVersion" type="xsd:int">
+      <xsd:annotation>
+        <xsd:documentation>The highest version number that has EVER been used for a version of this object.  Exists because DPFirmwareVersion extends DPVersion.  Probably never used in DPFirmwareVersion.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="strictFeatures" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>A ; separated string naming the strict features this firmware supports.  If a Firmware supports a strict feature, the firmware can ONLY be installed on devices having a license for that feature.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="modelType" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>A string version of the model type this firmware is for.  Examples of model type are 9002 and 9003.  There is also a special model type "9002 or 9001" which indicates the firmware can install on either a model 9002 or 9001.  THIS IS A STRING and NOT AN EXPRESSION so "9001 or 9002"  WILL NOT WORK.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="nonstrictFeatures" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>A ; separated string naming the nonstrict features this firmware supports.  If a Firmware supports a nonstrict feature, the firmware can be installed on a device irrespective of whether or not that device has a license for the nonstrict feature.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPFirmware" type="datapowermgr:DPFirmware">
+    <xsd:annotation>
+      <xsd:documentation>A collection object for all of the firmware versions</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPFirmwareVersion">
+    <xsd:annotation>
+      <xsd:documentation>A version of firmware for a DataPower Device</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="datapowermgr:DPVersion">
+        <xsd:attribute name="level" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The unique identifier for this level of Firmware when it was created by DataPower.  Extracted from the image Currently assumed to contain the device type it is intended for.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="manufactureDate" type="xsd:long">
+          <xsd:annotation>
+            <xsd:documentation>Date this level of firmware was built by DataPower.  Extracted from the image.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DPFirmwareVersion" type="datapowermgr:DPFirmwareVersion">
+    <xsd:annotation>
+      <xsd:documentation>A version of firmware for a DataPower Device</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPManager">
+    <xsd:annotation>
+      <xsd:documentation>The settings for the Manger.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="devices" type="datapowermgr:DPDevice"/>
+      <xsd:element name="managedSets" type="datapowermgr:DPManagedSet"/>
+	  <xsd:element name="tag" type="datapowermgr:DPTag"/>
+      <xsd:element name="firmwares" type="datapowermgr:DPFirmware"/>
+      <xsd:element name="properties" type="properties:Property"/>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="VersionsStoredLimit" type="xsd:int">
+      <xsd:annotation>
+        <xsd:documentation>The limit for the number of versions stored for a DPFirmware, a DPDomain or a DPClonableDeviceSettings</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPManager" type="datapowermgr:DPManager">
+    <xsd:annotation>
+      <xsd:documentation>The settings for the Manger.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DPDomainVersion">
+    <xsd:annotation>
+      <xsd:documentation>Version of a Domain</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="datapowermgr:DPVersion"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DPDomainVersion" type="datapowermgr:DPDomainVersion">
+    <xsd:annotation>
+      <xsd:documentation>Version of a Domain</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>  
+  <xsd:complexType name="DPPolicyVersion">
+    <xsd:annotation>
+      <xsd:documentation>Version of a DeploymenyPolicyDomain</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="datapowermgr:DPDeploymentPolicyVersion"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DPPolicyVersion" type="datapowermgr:DPPolicyVersion">
+    <xsd:annotation>
+      <xsd:documentation>Version of a Domain</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>   
+  
+   
+  <xsd:complexType name="DPTag">
+    <xsd:annotation>
+      <xsd:documentation>A set of DPDevices and DPDomains that will be tagged.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="name" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The name of this DPTag</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+	<xsd:attribute name="value" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The value of this DPTag</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="deviceMembers" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>A set of device that tagged by this tag</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+	<xsd:attribute name="domainMembers" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>A set of domain that tagged by this tag</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="DPTag" type="datapowermgr:DPTag">
+    <xsd:annotation>
+      <xsd:documentation>Repesents a tag.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  
+</xsd:schema>

@@ -1,0 +1,36 @@
+<html>
+<body>
+This package contains classes that are used by the <code>clientAPI</code> and <code>amp</code> packages. 
+This package also serves as the topmost package in the hierarchy; all other packages
+and classes for the IBM Appliance Management Toolkit are inside this namespace.
+
+<h3><a name="logging">Logging</a></h3>
+
+The manager uses JSR47 logging. When running standalone (i.e., JUnit), the logging
+properties may be adjusted by using a mechanism such as specifying
+<code>-Djava.util.logging.config.file=myLogging.properties</code> when invoking
+the Java runtime (JRE). 
+<p />
+When the manager is packaged with a client, the mechanism 
+for adjusting the logging properties will depend
+on which client is calling the clientAPI. 
+<p>
+The manager uses chained loggers. This is because each class has its own logger
+and the name of each log is the fully-qualified class name (including the package).
+So for example, you can affect the logger with any of the following names:
+<ul>
+<li>com.ibm.datapower.amt</li>
+<li>com.ibm.datapower.amt.amp</li>
+<li>com.ibm.datapower.amt.defaultProvider</li>
+<li>com.ibm.datapower.amt.defaultProvider.CommandsImpl</li>
+</ul>
+
+All of the loggers also belong the group defined in
+<a href="clientAPI/Manager.html#getLoggerGroupName()"><code>clientAPI.Manager.getLoggerGroupName()</code></a>.
+So you can also affect the loggers via that group name.
+Generally <code>FINE</code>
+or <code>FINER</code> should be sufficient to see the program flow. Using
+<code>FINEST</code> will give the greatest amount of detail.
+
+</body>
+</html>

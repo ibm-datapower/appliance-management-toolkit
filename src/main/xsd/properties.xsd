@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright 2014 IBM Corp.
+  
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+  
+   http://www.apache.org/licenses/LICENSE-2.0
+  
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:properties="http://www.ibm.com/datapower/lfs/schemas/5.0/properties.xmi" xmlns:xmi="http://www.omg.org/XMI" targetNamespace="http://www.ibm.com/datapower/lfs/schemas/5.0/properties.xmi">
+  <xsd:annotation>
+    <xsd:documentation>Commonly used types for setting name/value pair property values.</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://www.omg.org/XMI" schemaLocation="XMI.xsd"/>
+  <xsd:complexType name="Property">
+    <xsd:annotation>
+      <xsd:documentation>Specifies arbitrary name/value pairs of data, where the name is a property key and the value is a string value which can be used to set internal system configuration properties.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="name" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The name of the property.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="value" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The value for the property.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="description" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>An optional description for this property value</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="required" type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation>An optional attribute which specifies whether this property is required to have a value.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="validationExpression" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The console or other tools may use this value to validate the contents of the value of this property.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="Property" type="properties:Property">
+    <xsd:annotation>
+      <xsd:documentation>Specifies arbitrary name/value pairs of data, where the name is a property key and the value is a string value which can be used to set internal system configuration properties.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="PropertySet">
+    <xsd:annotation>
+      <xsd:documentation>A collection of properties that are used for some purpose.  </xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice maxOccurs="unbounded" minOccurs="0">
+      <xsd:element name="properties" type="properties:Property">
+        <xsd:annotation>
+          <xsd:documentation>Some runtime components allow a collection of additional properties which can be used for further customization.  See documentation related to the runtime component to determine if special properties can be used.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element ref="xmi:Extension"/>
+    </xsd:choice>
+    <xsd:attribute ref="xmi:id"/>
+    <xsd:attributeGroup ref="xmi:ObjectAttribs"/>
+    <xsd:attribute name="description" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>Some runtime components allow a collection of additional properties which can be used for further customization.  See documentation related to the runtime component to determine if special properties can be used.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="PropertySet" type="properties:PropertySet">
+    <xsd:annotation>
+      <xsd:documentation>A collection of properties that are used for some purpose.  </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="TypedProperty">
+    <xsd:annotation>
+      <xsd:documentation>Custom property value.  Check runtime component documentation to determine if there are additional supported custom properties available.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="properties:Property">
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Fully qualified Java type of this property (java.lang.Integer, java.lang.Byte).</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TypedProperty" type="properties:TypedProperty">
+    <xsd:annotation>
+      <xsd:documentation>Custom property value.  Check runtime component documentation to determine if there are additional supported custom properties available.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:complexType name="DescriptiveProperty">
+    <xsd:annotation>
+      <xsd:documentation>@system class
+Self Described property allow a flexible for adding a new configuration options without changing the WCCM Model.Self described property is for WebSphere internal use to create new configuration data; it is not for custom user configuration data.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="properties:TypedProperty">
+        <xsd:attribute name="displayNameKey" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A key to retrieve the display name in the plugin.nlsprops file.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="nlsRangeKey" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>It is a reference to  the label (translated range value) in the plugin.nlsprops file that will be used by admin console.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="hoverHelpKey" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>It is a reference key to the string in the plugin.nlsprops that is displayed when you place the cursor over the field.
+</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="range" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Specified the value range. If it's an integer range, specify it as "low-high". If it's a string range, specify a list of string seprated by comma.
+
+For example,
+Value range for integer: "1-10"
+Value range for string: "lazy.persisting.always"</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="inclusive" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>Specified the value range to be inclusive or not.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="firstClass" type="xsd:boolean">
+          <xsd:annotation>
+            <xsd:documentation>Specified whether the attribute is first class or not.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DescriptiveProperty" type="properties:DescriptiveProperty">
+    <xsd:annotation>
+      <xsd:documentation>@system class
+Self Described property allow a flexible for adding a new configuration options without changing the WCCM Model.Self described property is for WebSphere internal use to create new configuration data; it is not for custom user configuration data.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+</xsd:schema>

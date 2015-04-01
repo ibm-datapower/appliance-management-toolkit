@@ -1,0 +1,57 @@
+<html>
+<body>
+<h3>Local File System Implementation of the dataAPI Interface for the IBM Appliance Management Toolkit</h3>
+<p>The local file system (LFS) implementation of the dataAPI persists relevant information in the local file system. It transforms the 
+persistable objects defined by the dataAPI into XMLobjects before writing them to an XML file. Internally, the implementation uses XML Beans 
+technology for accessing the XML by binding it to Java types. XMLBeans uses an XML Schema, in the LFS implementation, to 
+compile Java interfaces and classes that you can then use to access and modify XML instance data.  Firmware and domain configuration images are
+stored as BIN files.  You can examine the WAMT.repository.xml file to see how the various elements can stand in relation to each other. There is an
+element that represents each stored object defined in the dataAPI.
+</p>
+<p>
+<h4>Configuration of the Local File System base directory</h4>
+   When the Manager is initialized, it attempts to locate a repository directory configured on the Credential
+   object.  See {@link com.ibm.datapower.amt.Credential} on how to set Credential properties. If one is not provided,
+   it next attempts to locate the configured repository directory using 
+   the value in the <code>WAMT_REPOS_HOME</code> environment variable.
+   This is the directory where the WAMT.repository.xml file is stored.
+   The WAMT.repository.xml file contains all of the Manager's configuration meta-data.    
+   Configuration artifacts such as a domain configuration backups and device firmares are also stored under the directory.
+   During manager initialization, if the specified directory does not exist, a new directory is created.
+</p><p>
+   If <code>WAMT_REPOS_HOME</code> environment variable is not specified, the configured repository directory is
+   resolved by using the path specified by the <code>user.home</code> property.  This directory is automatically created 
+   if it does not already exist.
+</p><p>
+   If the Manager locates an existing WAMT.repository.xml file, it loads data into the stored objects.  
+   If the Manager does not find WAMT.repository.xml file, it will start up without any data and prepare to write
+   to a new file.
+</p>
+<p><h4>Manager shutdown events</h4>
+When the Manager shutdowns gracefully, it will close down the repository and write all current
+data into the repository XML file.  It will also clean up any obsolete bin files from the directory. For example, a bin file can
+become obsolete if the firmware version that referenced the file is deleted. 
+</p>
+<p><h4>Saving configuration changes</h4>
+ The clientAPI saves data as it is modified. The Manager saves a backup copy of the repository file before it saves the current data. The backup
+ copy is overwritten before each save.</p>
+ <p><h4>Local File System use of the Credential object</h4>
+ The LFS implementation only uses the following properties from the Crendential object passed to
+ it by the Manager:
+ <ul>
+ <li><code>RepositoryEncryptionPassword</code> - the password used for encrypting sensitive information that is persisted to the repository.   
+ For example, it is used to encrypt persisted user passwords. 
+ If not provided, LFS will use a static default value.  It is recommended that you provide 
+ this password for additional security.</li>
+ <li><code>RepositoryDirectory</code> - the directory where the repository XML file will be saved.
+ If not provided, LFS will look for the a value in the <code>WAMT_REPOS_HOME</code> environment variable. If the
+<code>WAMT_REPOS_HOME</code> environment variable is not set, it will attempt tp use the path specified by the <code>user.home</code> property.
+ </ul>
+ The Credential is passed to the Manager during initialization.  
+ <ul>
+ See {@link com.ibm.datapower.amt.clientAPI.Manager#OPTION_CREDENTIAL} for the Manager Credential option.
+ See {@link com.ibm.datapower.amt.Credential} on how to set Credential properties.
+ </ul>
+ </p>
+</body>
+</html>

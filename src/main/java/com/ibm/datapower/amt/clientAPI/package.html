@@ -1,0 +1,255 @@
+<html>
+<body>
+The <code>clientAPI</code> package encapsulates the logic
+for managing DataPower appliances, providing the API that should be used by 
+a user interface to interact with one or more appliances.
+
+<p/>From a user interface perspective the <code>clientAPI</code>
+is the top-level API of the manager. The first classes you should become familiar with are:
+<ul>
+<li><a href="Manager.html"><code>Manager</code></a> - the top-level object. Must be created before using the IBM Appliance Management Toolkit.</li>
+<li><a href="Device.html"><code>Device</code></a> - a logical representation of a DataPower appliance.</li>
+<li><a href="Domain.html"><code>Domain</code></a> - a logical representation of a domain on a DataPower device.</li>
+<li><a href="Firmware.html"><code>Firmware</code></a> - a collection firmware images for a specific type of appliance.</li>
+<li><a href="ManagedSet.html"><code>ManagedSet</code></a> - a collection of Device objects. Used to simplify management tasks on multiple devices. </li>
+</ul>
+<p/>
+
+There are several factors to consider when using clientAPI
+<ul>
+<li>Some operations implemented in an asynchronous fashion because they take a long time to complete. A 
+<a href="ProgressContainer.html"><code>ProgressContainer</code></a> object 
+is returned for these asynchronous operations.</li>
+<li>Managed Sets can perform asynchronous operations across multiple devices. A 
+<a href="MacroProgressContainer.html"><code>MacroProgressContainer</code></a> object 
+is used as a container for the multiple ProgressContainer objects that are involved 
+with operations on a Managed Set. 
+<li>The <a href="URLSource.html"><code>URLSource</code></a> object is used to reference 
+configuration sources (for <a href="Domain.html"><code>Domain</code></a> and 
+<a href="DeploymentPolicy.html"><code>DeploymentPolicy</code></a> objects). The <code>URLSource</code>
+object supports multiple URL schemes (e.g. file:/// and http://)</li>
+</ul>
+
+<h3>Firmware related considerations</h3>
+Consider the following factors when deploying firmware to a DataPower device.
+
+<ul>
+<li>Firmware images have a notion of strict and non-strict features (related to licensing). The manager will not deploy a 
+firmware image onto a device if the image contains more strict features than the appliance is licensed to 
+use (e.g. The strict features of the appliance and the image must match exactly). Additionally, the firmware image 
+must contain all of the non-strict features licensed for the device. If the firmware contains fewer non-strict 
+license features the manager will not permit it to be deployed. See <a href="Firmware.html">Firmware</a> for more 
+detail.</li>
+<li>It is recommended that a configuration be deployed to devices with the same (or newer) firmware level.  Deploying a configuration to a device with an older firmware level (e.g. 3.8.1.0 configuration to a 3.7.3.8 device) is not recommended and may result in configuration errors.</li>
+<li>When downgrading a firmware (e.g. 3.8.1.0 to 3.7.3.8), the recommendation is to first reinitialize the device.</li>
+</ul>
+
+<h3>Overview of using the clientAPI</h3>
+<ul>
+	<li>Determine the configuration values you need to set to a different
+	value than the defaults. All the configuration keys and their default 
+	values are listed in the <a href="Configuration.html">Configuration</a> 
+	class.<br/>Examples are:
+	<ul>
+		<li>Alternate repository implementation: <a
+			href="Configuration.html#KEY_REPOSITORY_IMPL"><code>Configuration.KEY_REPOSITORY_IMPL</code></a></li>
+		<li>Credential for the repository: <a href="Manager.html#OPTION_CREDENTIAL"><code>Manager.OPTION_CREDENTIAL</code></a></li>
+		<li>Domain synchronization interval: <a href="Configuration.html#KEY_DOMAIN_SYNCHRONIZATION_INTERVAL"><code>Configuration.KEY_DOMAIN_SYNCHRONIZATION_INTERVAL</code></a></li>
+	</ul>
+	<li>Create the new configuration values via one of the following:
+		<ul>
+			<li>Create a properties file as described in the
+			<a href="Configuration.html">Configuration</a> class.</li>
+			<li>Create a <code>Map</code> of options that you want the <a
+			href="Manager.html"><code>Manager</code></a> to run with. The 
+			supported options are listed as public constants in the Manager class
+			javadoc. Note that the Credential object can be passed in
+			only via this Map, it can't be passed in via the properties file.</li>
+		</ul>
+	</li>
+	<li>Invoke <a href="Manager.html#getInstance(java.util.Map)"><code>Manager.getInstance(Map)</code></a>
+	method and pass in any desired options in the <code>Map</code>.</li>
+	<li>Perform any management operations. For example:</li>
+	<ul>
+		<li>add current firmware to the Manager:
+		<a href="Manager.html#addFirmware(com.ibm.datapower.amt.clientAPI.Blob,%20java.lang.String)"><code>Manager.addFirmware(Blob, String)</code></a></li>
+		<li>create an unmanaged device in the Manager:
+		<a href="Device.html#createDevice(java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.String,%20int)"><code>Device.createDevice(...)</code></a></li>
+		<li>create a new ManagedSet in the Manager:
+		<a href="ManagedSet.html#ManagedSet(java.lang.String)"><code>new ManagedSet(name)</code></a></li>
+		<li>manage a device by adding it to a ManagedSet:
+		<a href="ManagedSet.html#add(com.ibm.datapower.amt.clientAPI.Device)"><code>ManagedSet.add(Device)</code></a></li>
+		<li>add new firmware to the Manager:
+		<a href="Manager.html#addFirmware(com.ibm.datapower.amt.clientAPI.Blob,%20java.lang.String)"><code>Manager.addFirmware(Blob, String)</code></a></li>
+		<li>deploy new firmware to the ManagedSet:
+		<a href="ManagedSet.html#setSourceFirmwareLevel(String)"><code>ManagedSet.setSourceFirmwareLevel(String)</code></a></li>
+	</ul>
+	<li>Invoke the <a href="Manager.html#save(boolean)"><code>Manager.save(unforced)</code></a>
+	method to persist any changed objects.</li>
+	<li>Invoke the shutdown method of the Manager to gracefully stop
+	all the threads.</li>
+</ul>
+
+<h3>Code Sample</h3>
+
+The best way to describe how to use the manager is to provide a code sample. The following section is provided 
+to be a sample for using the clientAPI. For more information refer to specific 
+<code><a href="package-summary.html">clientAPI</a></code> JavaDoc for the clientAPI class 
+you are interested in.<br/><br/>
+Comments in this sample describe not only the associated code, but occasionally describes alternate usage
+of the <code>clientAPI</code>, so read closely!   
+<br/>
+<br/>
+
+<table border="0" cellpadding="5" cellspacing="0" width="90%" style="background-color:#DDDDDD">
+<tr><td>
+<pre>import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+
+import com.ibm.datapower.amt.Credential;
+import com.ibm.datapower.amt.DMgrException;
+import com.ibm.datapower.amt.clientAPI.Device;
+import com.ibm.datapower.amt.clientAPI.Domain;
+import com.ibm.datapower.amt.clientAPI.ManagedSet;
+import com.ibm.datapower.amt.clientAPI.Manager;
+import com.ibm.datapower.amt.clientAPI.ProgressContainer;
+import com.ibm.datapower.amt.clientAPI.URLSource;
+
+public class Sample {
+    
+    public static void main(String[] args) throws Exception  {
+
+        //Create the first instance of the manager. 
+        Map options = new HashMap();
+        Credential credential = new Credential();
+        //Specify the RepositoryEncryptionPassword property for additional security.
+        //  credential.setProperty("RepositoryEncryptionPassword", "ExamplePW");
+        //Specify the RepositoryDirectory property for location where repository files will be stored.        
+        //  credential.setProperty("RepositoryDirectory", "c:/WAMTRepository");        
+        
+        options.put(Manager.OPTION_CREDENTIAL, credential);
+        Manager manager = Manager.getInstance(options);
+
+        
+        //Go ahead and declare the progressContainer var, it will be used a few times.
+        ProgressContainer progressContainer = null;
+        
+        // Create device object
+        System.out.println("Create Device: device1");        		
+        progressContainer = null;
+        progressContainer = Device.createDevice("dp10", "dp10.dp.rtp.raleigh.ibm.com", "admin", "may0510m", 5550);
+        progressContainer.blockAndTrace(Level.FINER);
+        if (progressContainer.hasError()) {
+            System.out.println("An error occurred creating device object");
+            return;
+        }
+        Device device1 = (Device) progressContainer.getResult();
+        
+        // NOTE: At this point you can perform operations on the device like 
+        //       backup/restore, delete a domain, and update firmware. In this 
+        //       example, the device will be added to a managed set.
+
+        // Create managed set object and add device1
+        System.out.println("Create Managed Set: set1");        		
+        ManagedSet set1 = new ManagedSet("set1");
+    	progressContainer = set1.addDevice(device1);
+        progressContainer.blockAndTrace(Level.FINER);
+        
+        
+        //Create a managed domain in the Device object
+        System.out.println("Create domain on device1");        		
+        Domain domain1 = device1.createManagedDomain("myDomain");
+        
+        //Reference a domain config source via file, and policy config source via http
+        URLSource domainSource = new URLSource("file:///C:/DataPowerData/domain-export.zip");
+        URLSource policySource = new URLSource("http://my-http-server:8080/mypolicies/deployment-policy-export.zip");
+
+        //Set the domain and policy, and then deploy
+        //
+        //  At this point the domain synch could be enabled by calling 
+        //     domain1.setSynchronizationMode(DomainSynchronizationMode.AUTO);
+        //  but we won't, since we are about to set a domain AND a policy source, which would cause 
+        //  the domain to be deployed twice in rapid succession with the next two lines of code.
+        //  To disable auto synch call:
+        //     domain1.setSynchronizationMode(DomainSynchronizationMode.MANUAL);
+        //
+        domain1.setSourceConfiguration(domainSource);
+        domain1.setDeploymentPolicy(policySource, "someDomain", "somePolicyInTheDomain");
+
+        //Note that the "deployConfiguration" is not needed if synch is auto 
+        progressContainer = domain1.deployConfiguration();
+        System.out.println("OPTIONAL: PC Total steps=" + progressContainer.getTotalSteps());
+        progressContainer.blockAndTrace(Level.FINER);
+        if (progressContainer.getError()==null){
+      	   System.out.println("  OK deploy:");        	
+        }
+        else {
+           System.out.println("  Failed deploy:"+progressContainer.getError().getMessage());
+        }
+
+        // Create firmware versions in manager
+        System.out.println("Load firmware");        		
+        File firmwareFile = new File("C:/DataPowerData/xi-firmware-3.8.1.1.scrypt2");
+        Blob blob = new Blob(firmwareFile);
+    	progressContainer = manager.addFirmware(blob, "New XI firmware");
+        progressContainer.blockAndTrace(Level.FINER);
+        if (progressContainer.hasError()) {
+            System.out.println("An error occurred loading firmware");
+            return;
+        }
+        
+        //Set the firmware level for all devices in the managed set...
+        //hmm, seems like I recall we only have one.
+        System.out.println("Set firmware level and deploy it");        		
+        Hashtable failedDevices = set1.setSourceFirmwareLevel("3.8.1.1");
+        if (!failedDevices.isEmpty()) {
+            System.out.println("Hmm, a device failed. Maybe we dont have 3.8.1.1 for it?");       		
+        }
+        MacroProgressContainer mpc = set1.deploySourceFirmwareVersion();
+        mpc.blockAndTrace(Level.FINER);
+        if (mpc.hasError()) {
+            //Note that if a device in the set had a problem with the 
+            //seSourceFirmwareLevel, it will probably fail here too
+            System.out.println("An error occurred deploying firmware");
+            return;
+        }
+        //* This can also be done on the device directly
+        //device1.setSourceFirmwareLevel("3.8.1.1");
+        //progressContainer = device1.deploySourceFirmwareVersion();
+        //progressContainer.blockAndTrace(Level.FINER);
+
+        //////////////////////////////////////////////
+        // OPTIONAL REMOVAL - begin
+        // The code between the "OPTIONAL" comments 
+        // removes the newly created device & managed set 
+        // from the manager. If you skip these then they  
+        // will remain persisted and be available the next 
+        // time the manager is started. Thus creating them 
+        // again will cause an error. 
+        //
+        // remove device from the managed set
+        System.out.println("Remove device1");        		
+        progressContainer = set1.removeDevice(device1);
+        progressContainer.blockAndTrace(Level.FINER);
+        //    
+        // remove managed set from manager 
+        System.out.println("Remove managed set1");        		
+        manager.remove(set1);
+        //
+        // remove device from manager
+        System.out.println("Remove device1 from manager");        		
+        manager.remove(device1);
+        //
+        // OPTIONAL REMOVAL - end
+        //////////////////////////////////////////////
+        
+        // shutdown manager
+        manager.shutdown();
+        System.out.println("Sample COMPLETED.  Exiting.");
+    }
+}</pre></td></tr></table>
+
+</body>
+</html>

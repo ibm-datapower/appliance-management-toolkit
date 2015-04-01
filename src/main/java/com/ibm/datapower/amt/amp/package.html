@@ -1,0 +1,31 @@
+<html>
+<body>
+The Appliance Management Protocol (AMP) provides an abstraction layer for
+message and command communication between the Manager and the
+DataPower devices. It provides a Java interface so that the caller does
+not need to know the format of the messages or the transport mechanism
+used to communicate with the device. Because this is a Java interface,
+a specific implementation of this interface needs to be provided
+for actual communication with DataPower devices. 
+<p />
+WAMT provides default implementations for AMP in the
+<code>com.ibm.datapower.amt.amp.defaultProvider</code> and 
+<code>com.ibm.datapower.amt.amp.defaultV2Provider</code> packages.
+<p />
+AMP may also be referred to as "HLM", which is an abbreviation for
+"High Level Management". HLM is meant to contrast with SOMA, which is
+a low-level management. HLM was the initial name for AMP, it may not
+have been changed in all places.
+<p />
+To start using AMP, refer to:
+<ul>
+	<li><a href="Commands.html"><code>Commands</code></a> for the commands
+	sent from the Manager to the Device.</li>
+	<li><a href="SOAPHelper.html"><code>SOAPHelper</code></a> for the transport
+	implementation 	of transmitting commands from the Manager to the Device.</li>
+	<li><a href="NotificationCatcher.html"><code>NotificationCatcher</code></a>
+	for a listener of <a href="Notification.html"><code>Notification</code></a>
+	messages sent from the Device to the Manager.</li>
+</ul>
+</body>
+</html>
